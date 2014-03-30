@@ -95,10 +95,9 @@ float Perlin4D( vec4 P )
 
     // Classic Perlin Interpolation
     vec4 blend = Pf * Pf * Pf * (Pf * (Pf * 6.0 - 15.0) + 10.0);
-    vec4 blend2 = vec4( 1.0 ) - blend;
-    vec4 res0 = grad_results_lowz_loww * blend2.wwww + grad_results_lowz_highw * blend.wwww;
-    vec4 res1 = grad_results_highz_loww * blend2.wwww + grad_results_highz_highw * blend.wwww;
-    res0 = res0 * blend2.zzzz + res1 * blend.zzzz;
-    blend.zw = blend2.xy;
+    vec4 res0 = grad_results_lowz_loww + ( grad_results_lowz_highw - grad_results_lowz_loww ) * blend.wwww;
+    vec4 res1 = grad_results_highz_loww + ( grad_results_highz_highw - grad_results_highz_loww ) * blend.wwww;
+    res0 = res0 + ( res1 - res0 ) * blend.zzzz;
+    blend.zw = vec2( 1.0 ) - blend.xy;
     return dot( res0, blend.zxzx * blend.wwyy );
 }

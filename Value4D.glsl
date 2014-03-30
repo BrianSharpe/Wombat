@@ -47,10 +47,9 @@ float Value4D( vec4 P )
 
     //	blend the results and return
     vec4 blend = Pf * Pf * Pf * (Pf * (Pf * 6.0 - 15.0) + 10.0);
-    vec4 blend2 = vec4( 1.0 ) - blend;
-    vec4 res0 = z0w0_hash * blend2.wwww + z0w1_hash * blend.wwww;
-    vec4 res1 = z1w0_hash * blend2.wwww + z1w1_hash * blend.wwww;
-    res0 = res0 * blend2.zzzz + res1 * blend.zzzz;
-    blend.zw = blend2.xy;
+    vec4 res0 = z0w0_hash + ( z0w1_hash - z0w0_hash ) * blend.wwww;
+    vec4 res1 = z1w0_hash + ( z1w1_hash - z1w0_hash ) * blend.wwww;
+    res0 = res0 + ( res1 - res0 ) * blend.zzzz;
+    blend.zw = vec2( 1.0 - blend.xy );
     return dot( res0, blend.zxzx * blend.wwyy );
 }
