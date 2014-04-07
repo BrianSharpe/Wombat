@@ -36,7 +36,7 @@ vec3 Value2D_Deriv( vec2 P )
     vec4 hash = fract( Pt * ( 1.0 / 951.135664 ) );
 
     //	blend the results and return
-    vec4 blend = Pf.xyxy * Pf.xyxy * ( Pf.xyxy * ( Pf.xyxy * ( Pf.xyxy * vec4( 6.0, 6.0, 0.0, 0.0 ) + vec4( -15.0, -15.0, 30.0, 30.0 ) ) + vec4( 10.0, 10.0, -60.0, -60.0 ) ) + vec4( 0.0, 0.0, 30.0, 30.0 ) );
+    vec4 blend = Pf.xyxy * Pf.xyxy * ( Pf.xyxy * ( Pf.xyxy * ( Pf.xyxy * vec2( 6.0, 0.0 ).xxyy + vec2( -15.0, 30.0 ).xxyy ) + vec2( 10.0, -60.0 ).xxyy ) + vec2( 0.0, 30.0 ).xxyy );
     vec4 res0 = mix( hash.xyxz, hash.zwyw, blend.yyxx );
     return vec3( res0.x, 0.0, 0.0 ) + ( res0.yyw - res0.xxz ) * blend.xzw;
 }

@@ -67,6 +67,10 @@ vec4 Perlin3D_Deriv( vec3 P )
     vec4 dotval_0 = vec2( Pf.x, Pf_min1.x ).xyxy * grad_x0 + vec2( Pf.y, Pf_min1.y ).xxyy * grad_y0 + Pf.zzzz * grad_z0;
     vec4 dotval_1 = vec2( Pf.x, Pf_min1.x ).xyxy * grad_x1 + vec2( Pf.y, Pf_min1.y ).xxyy * grad_y1 + Pf_min1.zzzz * grad_z1;
 
+    //	C2 Interpolation
+    vec3 blend = Pf * Pf * Pf * (Pf * (Pf * 6.0 - 15.0) + 10.0);
+    vec3 blendDeriv = Pf * Pf * (Pf * (Pf * 30.0 - 60.0) + 30.0);
+
     //  the following is based off Milo Yips derivation, but modified for parallel execution
     //  http://stackoverflow.com/a/14141774
 
@@ -89,10 +93,6 @@ vec4 Perlin3D_Deriv( vec3 P )
     vec4 k5_gk5 = dotval6_grad6 - dotval4_grad4 - k1_gk1;
     vec4 k6_gk6 = (dotval7_grad7 - dotval6_grad6) - (dotval5_grad5 - dotval4_grad4) - k3_gk3;
 
-    //	C2 Interpolation
-    vec3 blend = Pf * Pf * Pf * (Pf * (Pf * 6.0 - 15.0) + 10.0);
-    vec3 blendDeriv = Pf * Pf * (Pf * (Pf * 30.0 - 60.0) + 30.0);
-
     //	calculate final noise + deriv
     float u = blend.x;
     float v = blend.y;
@@ -104,5 +104,5 @@ vec4 Perlin3D_Deriv( vec3 P )
     result.y += dot( vec4( k0_gk0.x, k3_gk3.x * v, vec2( k4_gk4.x, k6_gk6.x * v ) * w ), vec4( blendDeriv.x ) );
     result.z += dot( vec4( k1_gk1.x, k3_gk3.x * u, vec2( k5_gk5.x, k6_gk6.x * u ) * w ), vec4( blendDeriv.y ) );
     result.w += dot( vec4( k2_gk2.x, k4_gk4.x * u, vec2( k5_gk5.x, k6_gk6.x * u ) * v ), vec4( blendDeriv.z ) );
-    return ( result * 1.1547005383792515290182975610039 );  // scale things to a strict -1.0->1.0 range  *= 1.0/sqrt(0.75)
+    return result * 1.1547005383792515290182975610039;  // scale things to a strict -1.0->1.0 range  *= 1.0/sqrt(0.75)
 }
