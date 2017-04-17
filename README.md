@@ -13,7 +13,7 @@ brisharpe CIRCLE_A yahoo DOT com<br />
 http://briansharpe.wordpress.com<br />
 https://github.com/BrianSharpe<br />
 
-#####Wombat
+##### Wombat
 
 Wombat is a set of standalone GLSL procedural noise functions.  By standalone we mean it requires no texture sampling or use of any other GPU resources, other than registers and clock cycles.  It is ideal for use in cases when texture resources are scarce or when only GLSL code by itself can be provided for shading.
 
