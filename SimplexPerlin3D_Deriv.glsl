@@ -36,10 +36,10 @@ vec4 SimplexPerlin3D_Deriv(vec3 P)
     const float SKEWFACTOR = 1.0/3.0;
     const float UNSKEWFACTOR = 1.0/6.0;
     const float SIMPLEX_CORNER_POS = 0.5;
-    const float SIMPLEX_TETRAHADRON_HEIGHT = 0.70710678118654752440084436210485;    // sqrt( 0.5 )
+    const float SIMPLEX_TETRAHEDRON_HEIGHT = 0.70710678118654752440084436210485;    // sqrt( 0.5 )
 
     //  establish our grid cell.
-    P *= SIMPLEX_TETRAHADRON_HEIGHT;    // scale space so we can have an approx feature size of 1.0
+    P *= SIMPLEX_TETRAHEDRON_HEIGHT;    // scale space so we can have an approx feature size of 1.0
     vec3 Pi = floor( P + dot( P, vec3( SKEWFACTOR) ) );
 
     //  Find the vectors to the corners of our simplex tetrahedron
